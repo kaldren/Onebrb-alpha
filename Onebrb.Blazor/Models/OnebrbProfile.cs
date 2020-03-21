@@ -8,6 +8,7 @@ namespace Onebrb.Blazor.Models
 {
     public class OnebrbProfile
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "The first name field is required")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "The last name field is required")]
@@ -21,5 +22,6 @@ namespace Onebrb.Blazor.Models
         [Required(ErrorMessage = "The about field is required")]
         public string About { get; set; }
         public string PhotoPath { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
