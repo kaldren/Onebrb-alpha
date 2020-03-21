@@ -2,6 +2,10 @@
 @page "/profile/{profileId:int}"
 
 @using Onebrb.Blazor.Models
+@using Onebrb.Blazor.Services
+@inject ProfileCreatorService _profileCreatorService
+
+<p>@Message</p>
 
 <EditForm Model="@profileModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -21,7 +25,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="txtLastName" placeholder="" value="" >
+                        <input type="text" class="form-control" id="txtLastName" @bind="profileModel.LastName" placeholder="">
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>
@@ -30,7 +34,7 @@
 
                 <div class="mb-3">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="txtEmail" placeholder="you@example.com">
+                    <input type="email" class="form-control" id="txtEmail" @bind="profileModel.Email" placeholder="you@example.com">
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -39,7 +43,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-6">
                         <label for="country">Country</label>
-                        <select class="custom-select d-block w-100" id="slCountry" >
+                        <select class="custom-select d-block w-100" id="slCountry">
                             <option value="">Choose...</option>
                             <option>United States</option>
                         </select>
@@ -49,7 +53,7 @@
                     </div>
                     <div class="col-md-6 mb-6">
                         <label for="state">City</label>
-                        <input type="text" class="form-control" id="txtCity" placeholder="City">
+                        <input type="text" class="form-control" id="txtCity" @bind="profileModel.City" placeholder="City">
                         <div class="invalid-feedback">
                             Please provide a valid city.
                         </div>
@@ -59,7 +63,7 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">About you</label>
-                    <textarea class="form-control" id="txtAboutYou" rows="3"></textarea>
+                    <textarea class="form-control" id="txtAboutYou" @bind="profileModel.About" rows="3"></textarea>
                 </div>
                 <hr class="mb-4">
 
@@ -73,19 +77,32 @@
             </div>
         </div>
     </div>
-
 </EditForm>
-
 
 @code {
     [Parameter]
     public int profileId { get; set; }
 
+    public string Message { get; set; }
+
     OnebrbProfile profileModel = new OnebrbProfile();
     string txtFirstname = string.Empty;
 
-    private void HandleValidSubmit()
+    private async void HandleValidSubmit()
     {
-        Console.WriteLine("OnValidSubmit");
+        profileModel.Country = "Bulgaria";
+
+        var result = await _profileCreatorService.CreateProfile(profileModel);
+
+        if (result)
+        {
+            // Success
+            Message = "Success!";
+        }
+        else
+        {
+            // Error
+            Message = "Error!";
+        }
     }
 }

@@ -16,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Onebrb.Blazor.Areas.Identity;
 using Onebrb.Blazor.Data;
 using Onebrb.Blazor.Models;
+using Onebrb.Blazor.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Onebrb.Blazor
 {
@@ -41,6 +43,8 @@ namespace Onebrb.Blazor
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddSingleton<WeatherForecastService>();
+            services.AddTransient<ProfileCreatorService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

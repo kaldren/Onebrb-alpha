@@ -15,13 +15,13 @@ namespace Onebrb.Blazor.Models
         public string LastName { get; set; }
         [Required(ErrorMessage = "The email field is required")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "The country field is required")]
+        //[Required(ErrorMessage = "The country field is required")]
         public string Country { get; set; }
         [Required(ErrorMessage = "The city field is required")]
         public string City { get; set; }
         [Required(ErrorMessage = "The about field is required")]
         public string About { get; set; }
         public string PhotoPath { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string UserId { get; set; }
     }
 }
