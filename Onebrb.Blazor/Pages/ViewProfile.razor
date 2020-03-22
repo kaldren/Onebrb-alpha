@@ -4,47 +4,59 @@
 @using Onebrb.Blazor.Services
 @inject ProfileService _profileService
 
-@if (profileId != null)
-{
-    var profile = GetProfile(profileId);
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="profile">
+                @if (profileId != null)
+                {
+                    var profile = _profileService.GetProfile(profileId);
 
-    // Invalid profile
-    if (profile == null)
-    {
-        <h2>Invalid profile.</h2>
-    }
-    // Valid profile
-    else
-    {
-        // Check if user is logged in
-        var loggedInUserId = _profileService.GetLoggedInUserIdOrDefault();
+                    // Invalid profile
+                    if (profile == null)
+                    {
+                        <h2>Invalid profile.</h2>
+                    }
+                    // Valid profile
+                    else
+                    {
+                        // Check if user is logged in
+                        var loggedInUserId = _profileService.GetLoggedInUserIdOrDefault();
 
-        // Own Profile
-        if (loggedInUserId != null && loggedInUserId == profileId)
-        {
-            <h3>Own profile</h3>
-        }
-        // Other Profile
-        else
-        {
-            <h3>See this person's profile</h3>
-        }
-    }
-}
-else
-{
+                        // Own Profile
+                        if (loggedInUserId != null && loggedInUserId == profileId)
+                        {
+                            <div class="col-lg-6 offset-lg-2">
+                                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                                <h2>@profile.FirstName @profile.LastName</h2>
+                                <p>@profile.Country</p>
+                                <p>@profile.City</p>
+                                <p>@profile.Email</p>
+                                <p>
+                                    @profile.About
+                                </p>
+                                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+                            </div>
+                        }
+                        // Other Profile
+                        else
+                        {
+                            <h3>See this person's profile</h3>
+                        }
+                    }
+                }
+                else
+                {
 
-}
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public string profileId { get; set; }
 
     OnebrbProfile profileModel = new OnebrbProfile();
-
-    private OnebrbProfile GetProfile(string id)
-    {
-        return _profileService.GetProfile(id);
-    }
-
 }
