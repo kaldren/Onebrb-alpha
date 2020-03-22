@@ -18,10 +18,10 @@
     else
     {
         // Check if user is logged in
-        var userId = _profileService.GetLoggedInUserIdOrDefault();
+        var loggedInUserId = _profileService.GetLoggedInUserIdOrDefault();
 
         // Own Profile
-        if (userId != null && userId == profileId)
+        if (loggedInUserId != null && loggedInUserId == profileId)
         {
             <h3>Edit your profile</h3>
         }

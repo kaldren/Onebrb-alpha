@@ -1,0 +1,50 @@
+﻿@page "/view/{profileId}"
+@layout ViewProfileLayout
+@using Onebrb.Blazor.Models
+@using Onebrb.Blazor.Services
+@inject ProfileService _profileService
+
+@if (profileId != null)
+{
+    var profile = GetProfile(profileId);
+
+    // Invalid profile
+    if (profile == null)
+    {
+        <h2>Invalid profile.</h2>
+    }
+    // Valid profile
+    else
+    {
+        // Check if user is logged in
+        var loggedInUserId = _profileService.GetLoggedInUserIdOrDefault();
+
+        // Own Profile
+        if (loggedInUserId != null && loggedInUserId == profileId)
+        {
+            <h3>Own profile</h3>
+        }
+        // Other Profile
+        else
+        {
+            <h3>See this person's profile</h3>
+        }
+    }
+}
+else
+{
+
+}
+
+@code {
+    [Parameter]
+    public string profileId { get; set; }
+
+    OnebrbProfile profileModel = new OnebrbProfile();
+
+    private OnebrbProfile GetProfile(string id)
+    {
+        return _profileService.GetProfile(id);
+    }
+
+}
