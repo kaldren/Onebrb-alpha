@@ -1,92 +1,122 @@
 ﻿@page "/profile"
-@page "/profile/{profileId:int}"
+@page "/profile/{profileId}"
 
 @using Onebrb.Blazor.Models
 @using Onebrb.Blazor.Services
-@inject ProfileCreatorService _profileCreatorService
+@inject ProfileService _profileService
 
-<EditForm Model="@profileModel" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+@if (profileId != null)
+{
+    var profile = GetProfile(profileId);
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 order-md-1">
-                <h4 class="mb-3">Create Onebrb profile</h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstName">First name</label>
-                        <input type="text" class="form-control" id="txtFirstName" @bind="profileModel.FirstName" placeholder="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfBJREFUWAntVk1OwkAUZkoDKza4Utm61iP0AqyIDXahN2BjwiHYGU+gizap4QDuegWN7lyCbMSlCQjU7yO0TOlAi6GwgJc0fT/fzPfmzet0crmD7HsFBAvQbrcrw+Gw5fu+AfOYvgylJ4TwCoVCs1ardYTruqfj8fgV5OUMSVVT93VdP9dAzpVvm5wJHZFbg2LQ2pEYOlZ/oiDvwNcsFoseY4PBwMCrhaeCJyKWZU37KOJcYdi27QdhcuuBIb073BvTNL8ln4NeeR6NRi/wxZKQcGurQs5oNhqLshzVTMBewW/LMU3TTNlO0ieTiStjYhUIyi6DAp0xbEdgTt+LE0aCKQw24U4llsCs4ZRJrYopB6RwqnpA1YQ5NGFZ1YQ41Z5S8IQQdP5laEBRJcD4Vj5DEsW2gE6s6g3d/YP/g+BDnT7GNi2qCjTwGd6riBzHaaCEd3Js01vwCPIbmWBRx1nwAN/1ov+/drgFWIlfKpVukyYihtgkXNp4mABK+1GtVr+SBhJDbBIubVw+Cd/TDgKO2DPiN3YUo6y/nDCNEIsqTKH1en2tcwA9FKEItyDi3aIh8Gl1sRrVnSDzNFDJT1bAy5xpOYGn5fP5JuL95ZjMIn1ya7j5dPGfv0A5eAnpZUY3n5jXcoec5J67D9q+VuAPM47D3XaSeL4AAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
-                        <div class="invalid-feedback">
-                            Valid first name is required.
+    // Invalid profile
+    if (profile == null)
+    {
+        <h2>Invalid profile.</h2>
+    }
+    // Valid profile
+    else
+    {
+        // Check if user is logged in
+        var userId = _profileService.GetLoggedInUserIdOrDefault();
+
+        // Own Profile
+        if (userId != null && userId == profileId)
+        {
+            <h3>Edit your profile</h3>
+        }
+        // Other Profile
+        else
+        {
+            <h3>See this person's profile</h3>
+        }
+    }
+}
+else
+{
+    <EditForm Model="@profileModel" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 order-md-1">
+                    <h4 class="mb-3">Create Onebrb profile</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="txtFirstName" @bind="profileModel.FirstName" placeholder="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfBJREFUWAntVk1OwkAUZkoDKza4Utm61iP0AqyIDXahN2BjwiHYGU+gizap4QDuegWN7lyCbMSlCQjU7yO0TOlAi6GwgJc0fT/fzPfmzet0crmD7HsFBAvQbrcrw+Gw5fu+AfOYvgylJ4TwCoVCs1ardYTruqfj8fgV5OUMSVVT93VdP9dAzpVvm5wJHZFbg2LQ2pEYOlZ/oiDvwNcsFoseY4PBwMCrhaeCJyKWZU37KOJcYdi27QdhcuuBIb073BvTNL8ln4NeeR6NRi/wxZKQcGurQs5oNhqLshzVTMBewW/LMU3TTNlO0ieTiStjYhUIyi6DAp0xbEdgTt+LE0aCKQw24U4llsCs4ZRJrYopB6RwqnpA1YQ5NGFZ1YQ41Z5S8IQQdP5laEBRJcD4Vj5DEsW2gE6s6g3d/YP/g+BDnT7GNi2qCjTwGd6riBzHaaCEd3Js01vwCPIbmWBRx1nwAN/1ov+/drgFWIlfKpVukyYihtgkXNp4mABK+1GtVr+SBhJDbBIubVw+Cd/TDgKO2DPiN3YUo6y/nDCNEIsqTKH1en2tcwA9FKEItyDi3aIh8Gl1sRrVnSDzNFDJT1bAy5xpOYGn5fP5JuL95ZjMIn1ya7j5dPGfv0A5eAnpZUY3n5jXcoec5J67D9q+VuAPM47D3XaSeL4AAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" id="txtLastName" @bind="profileModel.LastName" placeholder="">
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="txtLastName" @bind="profileModel.LastName" placeholder="">
+
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="txtEmail" @bind="profileModel.Email" placeholder="you@example.com">
                         <div class="invalid-feedback">
-                            Valid last name is required.
+                            Please enter a valid email address for shipping updates.
                         </div>
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="txtEmail" @bind="profileModel.Email" placeholder="you@example.com">
-                    <div class="invalid-feedback">
-                        Please enter a valid email address for shipping updates.
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-6">
-                        <label for="country">Country</label>
-                        <select class="custom-select d-block w-100" id="slCountry">
-                            <option value="">Choose...</option>
-                            <option>United States</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a valid country.
+                    <div class="row">
+                        <div class="col-md-6 mb-6">
+                            <label for="country">Country</label>
+                            <select class="custom-select d-block w-100" id="slCountry">
+                                <option value="">Choose...</option>
+                                <option>United States</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-6">
+                            <label for="state">City</label>
+                            <input type="text" class="form-control" id="txtCity" @bind="profileModel.City" placeholder="City">
+                            <div class="invalid-feedback">
+                                Please provide a valid city.
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-6">
-                        <label for="state">City</label>
-                        <input type="text" class="form-control" id="txtCity" @bind="profileModel.City" placeholder="City">
-                        <div class="invalid-feedback">
-                            Please provide a valid city.
-                        </div>
+                    <hr class="mb-4">
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">About you</label>
+                        <textarea class="form-control" id="txtAboutYou" @bind="profileModel.About" rows="3"></textarea>
                     </div>
-                </div>
-                <hr class="mb-4">
+                    <hr class="mb-4">
 
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">About you</label>
-                    <textarea class="form-control" id="txtAboutYou" @bind="profileModel.About" rows="3"></textarea>
+                    <h4 class="mb-3">Photo</h4>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Choose photo (.JPG/.JPEG/.PNG)</label>
+                        <input type="file" class="form-control-file" id="inputPhoto">
+                    </div>
+                    <hr class="mb-4">
+                    <button disabled="@IsFormSuccess" class="btn btn-primary btn-lg btn-block" type="submit">@FormSubmitBtnText</button>
                 </div>
-                <hr class="mb-4">
-
-                <h4 class="mb-3">Photo</h4>
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Choose photo (.JPG/.JPEG/.PNG)</label>
-                    <input type="file" class="form-control-file" id="inputPhoto">
-                </div>
-                <hr class="mb-4">
-                <button disabled="@IsFormSuccess" class="btn btn-primary btn-lg btn-block" type="submit">@FormSubmitBtnText</button>
             </div>
         </div>
-    </div>
-</EditForm>
+    </EditForm>
 
-@if (IsFormSuccess == false && BtnSubmitClicked == true)
-{
-    <div class="alert alert-danger" role="alert">
-        Something went wrong! Please try again.
-    </div>
+    @if (IsFormSuccess == false && BtnSubmitClicked == true)
+    {
+        <div class="alert alert-danger" role="alert">
+            Something went wrong! Please try again.
+        </div>
+    }
 }
 
 @code {
     [Parameter]
-    public int profileId { get; set; }
+    public string profileId { get; set; }
 
     public string Message { get; set; }
     public string FormSubmitBtnText { get; set; } = "Create Profile";
@@ -101,7 +131,7 @@
 
         profileModel.Country = "Bulgaria";
 
-        var result = _profileCreatorService.CreateProfile(profileModel);
+        var result = _profileService.CreateProfile(profileModel);
 
         if (result)
         {
@@ -110,6 +140,11 @@
             IsFormSuccess = true;
         }
 
+    }
+
+    private OnebrbProfile GetProfile(string id)
+    {
+        return _profileService.GetProfile(id);
     }
 
 }

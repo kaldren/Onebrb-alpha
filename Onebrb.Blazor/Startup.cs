@@ -43,7 +43,7 @@ namespace Onebrb.Blazor
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddSingleton<WeatherForecastService>();
-            services.AddTransient<ProfileCreatorService>();
+            services.AddTransient<ProfileService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

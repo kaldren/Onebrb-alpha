@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace Onebrb.Blazor.Services
 {
-    public class ProfileCreatorService
+    public class ProfileService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContext;
 
-        public ProfileCreatorService(ApplicationDbContext dbContext, IHttpContextAccessor httpContext)
+        public ProfileService(ApplicationDbContext dbContext, IHttpContextAccessor httpContext)
         {
             _dbContext = dbContext;
             _httpContext = httpContext;
@@ -37,6 +37,16 @@ namespace Onebrb.Blazor.Services
             int result = _dbContext.SaveChanges();
 
             return result > 0;
+        }
+
+        public OnebrbProfile GetProfile(string id)
+        {
+            return _dbContext.OnebrbProfiles.FirstOrDefault(x => x.UserId == id);
+        }
+
+        public string GetLoggedInUserIdOrDefault()
+        {
+            return _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
     }
 }
