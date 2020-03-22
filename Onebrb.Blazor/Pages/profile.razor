@@ -71,23 +71,34 @@
                     <input type="file" class="form-control-file" id="inputPhoto">
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button disabled="@IsFormSuccess" class="btn btn-primary btn-lg btn-block" type="submit">@FormSubmitBtnText</button>
             </div>
         </div>
     </div>
 </EditForm>
+
+@if (IsFormSuccess == false && BtnSubmitClicked == true)
+{
+    <div class="alert alert-danger" role="alert">
+        Something went wrong! Please try again.
+    </div>
+}
 
 @code {
     [Parameter]
     public int profileId { get; set; }
 
     public string Message { get; set; }
+    public string FormSubmitBtnText { get; set; } = "Create Profile";
+    public bool IsFormSuccess { get; set; }
+    public bool BtnSubmitClicked { get; set; }
 
     OnebrbProfile profileModel = new OnebrbProfile();
-    string txtFirstname = string.Empty;
 
     private void HandleValidSubmit()
     {
+        BtnSubmitClicked = true;
+
         profileModel.Country = "Bulgaria";
 
         var result = _profileCreatorService.CreateProfile(profileModel);
@@ -95,13 +106,10 @@
         if (result)
         {
             // Success
-            Message = "Success!";
+            FormSubmitBtnText = "Success!";
+            IsFormSuccess = true;
         }
-        else
-        {
-            // Error
-            Message = "Error!";
-        }
+
     }
 
 }
