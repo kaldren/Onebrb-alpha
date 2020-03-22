@@ -137,6 +137,11 @@ app {
     top: 0.5rem;
 }
 
+/*#region Profile*/
+.profile {
+    padding: 30px 12px;
+}
+/*#endregion Profile*/
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;

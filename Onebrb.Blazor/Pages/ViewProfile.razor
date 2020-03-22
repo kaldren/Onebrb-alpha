@@ -32,10 +32,32 @@
                                 <p>@profile.Country</p>
                                 <p>@profile.City</p>
                                 <p>@profile.Email</p>
+
+                                @if (profile.LinkedIn != null)
+                                {
+                                    <button type="button" class="btn btn-primary">LinkedIn</button>
+                                }
+
+                                @if (profile.Facebook != null)
+                                {
+                                    <button type="button" class="btn btn-primary">Facebook</button>
+                                }
+                                @if (profile.Instagram != null)
+                                {
+                                    <button type="button" class="btn btn-primary">Instagram</button>
+                                }
+                                @if (profile.Twitter != null)
+                                {
+                                    <button type="button" class="btn btn-primary">Twitter</button>
+                                }
+                                @if (profile.Website != null)
+                                {
+                                    <button type="button" class="btn btn-primary">Website</button>
+                                }
+
                                 <p>
                                     @profile.About
                                 </p>
-                                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
                             </div>
                         }
                         // Other Profile

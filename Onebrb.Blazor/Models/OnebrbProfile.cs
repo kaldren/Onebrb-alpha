@@ -15,6 +15,11 @@ namespace Onebrb.Blazor.Models
         public string LastName { get; set; }
         [Required(ErrorMessage = "The email field is required")]
         public string Email { get; set; }
+        public string LinkedIn { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Instagram { get; set; }
+        public string Website { get; set; }
         //[Required(ErrorMessage = "The country field is required")]
         public string Country { get; set; }
         [Required(ErrorMessage = "The city field is required")]
