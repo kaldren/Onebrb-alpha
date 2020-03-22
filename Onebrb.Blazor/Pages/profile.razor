@@ -5,8 +5,6 @@
 @using Onebrb.Blazor.Services
 @inject ProfileCreatorService _profileCreatorService
 
-<p>@Message</p>
-
 <EditForm Model="@profileModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -88,11 +86,11 @@
     OnebrbProfile profileModel = new OnebrbProfile();
     string txtFirstname = string.Empty;
 
-    private async void HandleValidSubmit()
+    private void HandleValidSubmit()
     {
         profileModel.Country = "Bulgaria";
 
-        var result = await _profileCreatorService.CreateProfile(profileModel);
+        var result = _profileCreatorService.CreateProfile(profileModel);
 
         if (result)
         {
@@ -105,4 +103,5 @@
             Message = "Error!";
         }
     }
+
 }

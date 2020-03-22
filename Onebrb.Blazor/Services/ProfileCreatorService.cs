@@ -22,7 +22,7 @@ namespace Onebrb.Blazor.Services
             _httpContext = httpContext;
         }
 
-        public async Task<bool> CreateProfile(OnebrbProfile entity)
+        public bool CreateProfile(OnebrbProfile entity)
         {
             var userId = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -34,7 +34,7 @@ namespace Onebrb.Blazor.Services
             entity.UserId = userId;
 
             _dbContext.OnebrbProfiles.Add(entity);
-            int result = await _dbContext.SaveChangesAsync();
+            int result = _dbContext.SaveChanges();
 
             return result > 0;
         }
