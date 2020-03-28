@@ -4,14 +4,20 @@
 @using Onebrb.Blazor.Services
 @inject ProfileService _profileService
 
+@{
+    var profile = _profileService.GetProfile(profileId);
+    if (profile != null)
+    {
+        <div class="custom-bg" style="position: absolute; top:0;left:0;right:0;bottom:0;background: @profile.ProfileColor;"></div>
+    }
+}
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <div class="profile">
                 @if (profileId != null)
                 {
-                    var profile = _profileService.GetProfile(profileId);
-
                     // Invalid profile
                     if (profile == null)
                     {

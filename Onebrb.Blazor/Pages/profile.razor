@@ -41,7 +41,7 @@ else
         <div class="container">
             <div class="row">
                 <div class="col-md-8 order-md-1">
-                    <h4 class="mb-3">Create Onebrb profile</h4>
+                    <h4 class="mb-3">Onebrb profile</h4>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName">First name</label>
@@ -122,6 +122,21 @@ else
                         <input type="file" class="form-control-file" id="inputPhoto">
                     </div>
                     <hr class="mb-4">
+                    <h4>Profile Color (Optional)</h4>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input @onclick="@(() => profileModel.ProfileColor = "#3498db")" type="radio" id="customBgProfileBlueish" name="customBgProfileBlueish" class="custom-control-input">
+                        <label class="custom-control-label" for="customBgProfileBlueish" style="color: #3498db;">Blueish</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input @onclick="@(() => profileModel.ProfileColor = "#fd79a8")" type="radio" id="customBgProfilePinkish" name="customBgProfilePinkish" class="custom-control-input">
+                        <label class="custom-control-label" for="customBgProfilePinkish" style="color: #fd79a8;">Pinkish</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input @onclick="@(() => profileModel.ProfileColor = "#2ecc71")" type="radio" id="customBgProfileGreenish" name="customBgProfileGreenish" class="custom-control-input">
+                        <label class="custom-control-label" for="customBgProfileGreenish" style="color: #2ecc71;">Greenish</label>
+                    </div>
+                    <hr class="mb-4">
+
                     <button disabled="@IsFormSuccess" class="btn btn-primary btn-lg btn-block" type="submit">@FormSubmitBtnText</button>
                 </div>
             </div>
@@ -144,6 +159,7 @@ else
     public string FormSubmitBtnText { get; set; } = "Create Profile";
     public bool IsFormSuccess { get; set; }
     public bool BtnSubmitClicked { get; set; }
+    int customProfileColor = 0;
 
     OnebrbProfile profileModel = new OnebrbProfile();
 

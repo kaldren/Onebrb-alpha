@@ -28,5 +28,6 @@ namespace Onebrb.Blazor.Models
         public string About { get; set; }
         public string PhotoPath { get; set; }
         public string UserId { get; set; }
+        public string ProfileColor { get; set; }
     }
 }
